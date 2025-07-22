@@ -6,8 +6,10 @@
   - [Introduction](#introduction)
   - [Container and K8s Setup](#container-and-k8s-setup)
   - [Why containerd not docker?](#why-containerd-not-docker)
-  - [Setup Steps](#setup-steps) - [Prepare the system to use containerd](#prepare-the-system-to-use-containerd) - [Installing the kubernetes tools](#installing-the-kubernetes-tools)
-  <!--toc:end-->
+  - [Setup Steps](#setup-steps)
+    - [Prepare the system to use containerd](#prepare-the-system-to-use-containerd)
+    - [Installing the kubernetes tools](#installing-the-kubernetes-tools)
+    <!--toc:end-->
 
 ## Introduction
 

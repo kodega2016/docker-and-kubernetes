@@ -162,3 +162,104 @@ sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
 ## Setup HA Proxy
+
+Launch the EC2 instance for HA proxy and first of all,we need to update
+and upgrade the system packages.
+
+```bash
+sudo -i
+apt update -y
+apt upgrade -y
+```
+
+Install HA proxy:
+
+```bash
+sudo apt install -y haproxy
+```
+
+We need to update the HA proxy configuration file to include the control plane nodes
+'/etc/haproxy/haproxy.cfg'. The configuration file should look like this:
+
+```bash
+# existing configuration
+
+frontend kube-apiserver
+        bind *:6443
+        mode tcp
+        option tcplog
+        default_backend kube-apiserver
+
+backend kube-apiserver
+        mode tcp
+        option tcplog
+        option tcp-check
+        balance roundrobin
+        #default-server inter 10s downinter 5s rise 2 fall 2 slowstart 60s
+        # maxconn 20
+        # maxqueue 256 weight 100
+        server kube-apiserver-1 <controplanode-ip>:6443 check
+        server kube-apiserver-2 <controplanode-ip>:6443 check
+        server kube-apiserver-3 <controplanode-ip>:6443 check
+
+```
+
+> [!NOTE]
+> Here,we need to replace `<controplanode-ip>` with the actual IP addresses of
+> the control plane nodes. We can also use the private IP addresses of the
+> control plane nodes.
+
+After updating the configuration file, we need to restart the HA proxy service:
+
+```bash
+systemctl enable haproxy
+systemctl restart haproxy
+```
+
+After that we can check the status of the HA proxy service:
+
+```bash
+systemctl status haproxy
+```
+
+To check the connection from the control plane nodes to the HA proxy, we can
+use `nc`
+tool:
+
+```bash
+nc -v <haproxy-ip> 6443
+```
+
+After that we can proceed to setup the control plane nodes.
+
+```bash
+kubeadm init --control-plane-endpoint "172.31.90.220:6443" --upload-certs --pod-network-cidr 192.168.0.0/16
+```
+
+Then we can run the following command to set up the kubeconfig file for these.
+
+```bash
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+# Join the control plane nodes to the cluster
+kubeadm join 172.31.90.220:6443 --token nwz7io.iflc3x3eamikgule \
+        --discovery-token-ca-cert-hash sha256:62362eda95c45f9ee691b85949011a1e06e3d8ddc99849c65a3911003e9c02d1 \
+        --control-plane --certificate-key 328a5bf38928b750c4ceba5b8021a472c3ae524e659b9ec5d07d33f6761058c5
+
+# worker node join command
+kubeadm join 172.31.90.220:6443 --token wdob3v.yhqqujemou350xel --discovery-token-ca-cert-hash sha256:62362eda95c45f9ee691b85949011a1e06e3d8ddc99849c65a3911003e9c02d1
+```
+
+After that we need to install the networking plugin for the cluster. We
+are going to use calico as the networking plugin for the cluster. We can
+install it using the following command:
+
+[Documentation](https://docs.tigera.io/calico/latest/getting-started/kubernetes/k8s-single-node)
+
+```bash
+https://docs.tigera.io/calico/latest/getting-started/kubernetes/k8s-single-node
+```

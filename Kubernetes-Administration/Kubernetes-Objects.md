@@ -49,3 +49,18 @@ starts.They are used for the initialization tasks such as setting up
 scripts,Each initContainers starts and finish and others containers starts.
 
 initContainers can have their own images and configurations.
+
+```yaml
+ initContainers:
+    - name: alpine-init
+      image: alpine
+      command:
+        - wget
+        - "-O"
+        - "/var/tmp/index.html"
+        - https://github.com/sudheerduba/initContainer_demo/blob/main/index.html?raw=true
+      volumeMounts:
+        -  name: shared-volume
+           mountPath: /var/tmp
+
+```

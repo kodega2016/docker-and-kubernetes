@@ -1,11 +1,12 @@
 # Kubernetes Objects Overview
 
 <!--toc:start-->
+
 - [Kubernetes Objects Overview](#kubernetes-objects-overview)
   - [What is a Pod?](#what-is-a-pod)
   - [What is initContainers?](#what-is-initcontainers)
   - [POD LifeCycle Restart Policy](#pod-lifecycle-restart-policy)
-<!--toc:end-->
+  <!--toc:end-->
 
 In Kubernetes,each of the components is represented as an object.We
 need to create these objects to run our applications in the kubernetes
@@ -52,18 +53,17 @@ scripts,Each initContainers starts and finish and others containers starts.
 initContainers can have their own images and configurations.
 
 ```yaml
- initContainers:
-    - name: alpine-init
-      image: alpine
-      command:
-        - wget
-        - "-O"
-        - "/var/tmp/index.html"
-        - https://github.com/sudheerduba/initContainer_demo/blob/main/index.html?raw=true
-      volumeMounts:
-        -  name: shared-volume
-           mountPath: /var/tmp
-
+initContainers:
+  - name: alpine-init
+    image: alpine
+    command:
+      - wget
+      - "-O"
+      - "/var/tmp/index.html"
+      - https://github.com/sudheerduba/initContainer_demo/blob/main/index.html?raw=true
+    volumeMounts:
+      - name: shared-volume
+        mountPath: /var/tmp
 ```
 
 ## POD LifeCycle Restart Policy
@@ -73,4 +73,10 @@ We can have following restart policies for the pods:
 - Always: Pod will be restarted if it fails.
 - Never: Pod will not be restarted if it fails.
 - OnFailure: Pod will be restarted if it fails, but not if it is terminated by
-the exit code 0.
+  the exit code 0.
+
+We can scale the replication controller using the following command:
+
+```bash
+kubectl scale --replicas 2 rc/replication-controller-name
+```

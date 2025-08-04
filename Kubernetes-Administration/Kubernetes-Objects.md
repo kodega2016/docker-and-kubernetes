@@ -4,6 +4,7 @@
 - [Kubernetes Objects Overview](#kubernetes-objects-overview)
   - [What is a Pod?](#what-is-a-pod)
   - [What is initContainers?](#what-is-initcontainers)
+  - [POD LifeCycle Restart Policy](#pod-lifecycle-restart-policy)
 <!--toc:end-->
 
 In Kubernetes,each of the components is represented as an object.We
@@ -64,3 +65,12 @@ initContainers can have their own images and configurations.
            mountPath: /var/tmp
 
 ```
+
+## POD LifeCycle Restart Policy
+
+We can have following restart policies for the pods:
+
+- Always: Pod will be restarted if it fails.
+- Never: Pod will not be restarted if it fails.
+- OnFailure: Pod will be restarted if it fails, but not if it is terminated by
+the exit code 0.

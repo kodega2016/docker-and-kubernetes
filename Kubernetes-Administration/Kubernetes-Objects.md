@@ -6,6 +6,10 @@
   - [What is a Pod?](#what-is-a-pod)
   - [What is initContainers?](#what-is-initcontainers)
   - [POD LifeCycle Restart Policy](#pod-lifecycle-restart-policy)
+  - [Delete Cascade](#delete-cascade)
+  - [Replication Controller](#replication-controller)
+  - [ReplicaSet](#replicaset)
+  - [Deployment](#deployment)
   <!--toc:end-->
 
 In Kubernetes,each of the components is represented as an object.We
@@ -80,3 +84,68 @@ We can scale the replication controller using the following command:
 ```bash
 kubectl scale --replicas 2 rc/replication-controller-name
 ```
+
+## Delete Cascade
+
+When we delete the replication controller,by default it will delete the pods
+but we can also delete the parent controller using the `--cascade` option.
+
+```bash
+kubectl delete --cascade=orphan rc nginx-rc
+```
+
+## Replication Controller
+
+It is used to ensure that a specified number of pod replicas are running at any
+given time.This is useful for scaling applications and ensuring high availability.
+
+```yaml
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx-rc
+spec:
+  replicas: 3
+  selector:
+    app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+```
+
+```bash
+kubectl get rc
+```
+
+## ReplicaSet
+
+It is a newer version of the replication controller and is used to ensure that a
+number of pod replicas are running at any given time,similar to the replication
+controller.
+
+It is used in deployments to manage the pods and ensure that the desired number
+of replicas are running.
+
+The api version for the replicaset is `apps/v1` and the kind is `ReplicaSet`.
+
+It is recommended to use Deployment instead of ReplicaSet directly,as the
+deployment provides additional features such as rolling updates and
+rollbacks.
+
+## Deployment
+
+Like the replication controller and replicaset, it is used to manage the number
+of pod replicas and ensure that the desired number of replicas are running.
+
+It has features such as rolling updates and rollbacks,which makes it easier to
+roll out changes to the application without downtime.
+
+It is the most commonly used object in Kubernetes for managing the pods and
+deployments.

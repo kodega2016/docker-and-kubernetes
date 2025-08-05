@@ -11,6 +11,7 @@
   - [ReplicaSet](#replicaset)
   - [Deployment](#deployment)
   - [DaemonSet](#daemonset)
+  - [Jobs](#jobs)
   <!--toc:end-->
 
 In Kubernetes,each of the components is represented as an object.We
@@ -193,4 +194,25 @@ the update process.
 
 DaemonSet is used to ensure that at least one pod is running on each node in the
 cluster.It is useful for running background tasks such as logging,monitoring and
+
 other system-level tasks.
+
+It adds a pod to each node in the cluster,ensuring that the pod is running on
+each node.
+
+UseCases:
+
+- running a logging agent on each node of the cluster.
+- running a monitoring agent on each node of the cluster.
+
+There are OnDelete strategy which means that the pods will not be updated automatically,
+we need to delete the pods manually to update them.
+
+## Jobs
+
+They are used to run a batch jobs or a one-time tasks in the cluster such as data
+processing,backup and restore tasks.
+
+It ensures that one o more pods are running and terminated after the job is completed.
+
+The api version for the job is `batch/v1` and the kind is `Job`.

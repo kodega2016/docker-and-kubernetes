@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: writer-container
+          image: alpine
+          command: ["/bin/sh"]
+          args:
+            [
+              "-c",
+              "while true; do date >> /var/logs/index.html; sleep 10; done",
+            ]
+          volumeMounts:
+            - name: shared-volume
+              mountPath: /var/logs
+
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: shared-volume
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: shared-volume
+          emptyDir: {}

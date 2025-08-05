@@ -149,3 +149,41 @@ roll out changes to the application without downtime.
 
 It is the most commonly used object in Kubernetes for managing the pods and
 deployments.
+
+We
+
+```bash
+kubectl set image deployment/nginx-deployment nginx=nginx:1.19.0
+```
+
+To roll back to previous version:
+
+```bash
+kubectl rollout undo deployment/nginx-deployment --to-revision=1
+```
+
+To check the rollout status:
+
+```bash
+kubectl rollout status deployment/nginx-deployment
+```
+
+By default,deployment follows the `RollingUpdate` strategy,which means that it will
+only update a few pods at a time,ensuring that the application remains available
+during the update process.
+
+There are two update strategies available for deployments:
+
+- `RollingUpdate`: This is the default strategy and it updates the pods in a rolling
+  manner,ensuring that the application remains available during the update process.
+
+- `Recreate`: This strategy will terminate all the existing pods and create new ones,
+  which may cause downtime for the application.
+
+There are two key properties in the deployment process maxSurge and maxUnavailable:
+
+MaxSurge: This is the maximum number of pods that can be created above the desired
+number of pods during the update process.
+
+MaxUnavailable: This is the maximum number of pods that can be unavailable during
+the update process.

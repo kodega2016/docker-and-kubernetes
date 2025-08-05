@@ -10,6 +10,7 @@
   - [Replication Controller](#replication-controller)
   - [ReplicaSet](#replicaset)
   - [Deployment](#deployment)
+  - [DaemonSet](#daemonset)
   <!--toc:end-->
 
 In Kubernetes,each of the components is represented as an object.We
@@ -187,3 +188,9 @@ number of pods during the update process.
 
 MaxUnavailable: This is the maximum number of pods that can be unavailable during
 the update process.
+
+## DaemonSet
+
+DaemonSet is used to ensure that at least one pod is running on each node in the
+cluster.It is useful for running background tasks such as logging,monitoring and
+other system-level tasks.

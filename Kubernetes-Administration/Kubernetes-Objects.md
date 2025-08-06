@@ -12,6 +12,7 @@
   - [Deployment](#deployment)
   - [DaemonSet](#daemonset)
   - [Jobs](#jobs)
+  - [CronJobs](#cronjobs)
   <!--toc:end-->
 
 In Kubernetes,each of the components is represented as an object.We
@@ -228,3 +229,21 @@ to ensure that the job is completed successfully.
 
 We can also set `ttlSecondsAfterFinished` to specify the time to live for the job
 after it is completed.
+
+## CronJobs
+
+They are used to run a batch jobs at a specific time or interval,similar to
+the cron jobs in Linux.
+
+The cronjob will starts a jobs at a specific time or interval and will
+ensure that the job is completed successfully.
+
+The timezone will be the timezone of the kubecontrol plane.We also
+can set the timezone for the cronjob using the `spec.timezone` field.
+
+We can set concurrencyPolicy to control how many jobs can run at the same time.
+The options are:
+
+- `Allow`: allows multiple jobs to run at the same time.
+- `Forbid`: prevents multiple jobs from running at the same time.
+- `Replace`: replaces the currently running job with a new one.

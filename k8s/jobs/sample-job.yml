@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sample-job
+spec:
+  ttlSecondsAfterFinished: 40
+  template:
+    spec:
+      containers:
+        - name: alpine
+          image: alpine
+          command: ["/bin/sh"]
+          args: ["-c", "echo Hello from k8s"]
+      restartPolicy: Never

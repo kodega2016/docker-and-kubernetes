@@ -216,3 +216,15 @@ processing,backup and restore tasks.
 It ensures that one o more pods are running and terminated after the job is completed.
 
 The api version for the job is `batch/v1` and the kind is `Job`.
+
+The restart policy for the job is either `Never` or `OnFailure` which means
+that the job will not run always and will not be restarted if it fails.
+
+The restartPolicy Never means that the job will not be restarted if it fails,
+It will starts a new pod if it fails and will not restart the existing pod.
+
+But when we use the restartPolicy OnFailure, it will restart the pod if it fails
+to ensure that the job is completed successfully.
+
+We can also set `ttlSecondsAfterFinished` to specify the time to live for the job
+after it is completed.

@@ -53,3 +53,9 @@ The dns name looks like this:
 ```
 <service-name>.<namespace>.svc.cluster.local
 ```
+
+We can also view all the endpoints of a service using the following command:
+
+```bash
+kubectl get ep <service-name>
+```

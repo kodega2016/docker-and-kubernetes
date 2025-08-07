@@ -59,3 +59,12 @@ We can also view all the endpoints of a service using the following command:
 ```bash
 kubectl get ep <service-name>
 ```
+
+we also can run the following command to expose a service to the cluster:
+
+```bash
+kubectl expose deployment <deployment-name> --type=ClusterIP \n
+--name=<service-name> \n
+--port=<port> --target-port=<target-port> \n
+selector=<label-selector>
+```

@@ -6,6 +6,7 @@
   - [What is Service?](#what-is-service)
   - [ClusterIP Service](#clusterip-service)
   - [NodePort Service](#nodeport-service)
+  - [Customizing NodePort Service IP ranges](#customizing-nodeport-service-ip-ranges)
   <!--toc:end-->
 
 We are going to cover the following topics in this section:
@@ -106,3 +107,21 @@ There we can customize the default NodePort service IP ranges by editing the
 ```yaml
 --service-node-port-range=30000-32767
 ```
+
+## LoadBalancer Service
+
+It creates an external load balancer in a cloud provider and assigns a fixed,
+address to the Service. It is used for exposing Services to the internet.
+
+While using the cloud provider,it uses the cloud provider's load balancer
+service to route traffic to the Service.
+
+On-premises,we can use different load balancer solutions like MetalLB,
+OpenELB or PureLB to achieve the same functionality.
+
+For the cloud,there are different load balancer solutions like AWS ELB, GCP
+Load balancer,
+
+AWS- AWS Net work load balancer
+AZURE- Azure Load Balancer
+GCP- GCP Load Balancer

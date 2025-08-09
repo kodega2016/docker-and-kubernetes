@@ -4,6 +4,8 @@
 
 - [Services in Kubernetes](#services-in-kubernetes)
   - [What is Service?](#what-is-service)
+  - [ClusterIP Service](#clusterip-service)
+  - [NodePort Service](#nodeport-service)
   <!--toc:end-->
 
 We are going to cover the following topics in this section:
@@ -68,3 +70,17 @@ kubectl expose deployment <deployment-name> --type=ClusterIP \n
 --port=<port> --target-port=<target-port> \n
 selector=<label-selector>
 ```
+
+## NodePort Service
+
+It exposes the servics on each node's IP at a static port,when traffic comes
+to the nodes IP and port, it is forwared to the service and then to the pods.
+
+The port range for NodePort service is `30000-32767`.
+
+The workflow looks like this:
+external client-> Node IP:NodePort-> Service -> Pod IP:TargetPort
+
+> [!NOTE]
+> We need to allow the request to the NodePort if the firewall is enabled
+> on the nodes.

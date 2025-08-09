@@ -84,3 +84,12 @@ external client-> Node IP:NodePort-> Service -> Pod IP:TargetPort
 > [!NOTE]
 > We need to allow the request to the NodePort if the firewall is enabled
 > on the nodes.
+
+We also can run the following command to expose a service using the NodePort type:
+
+```bash
+kubectl expose deployment <deployment-name> --type=NodePort \n
+--name=<service-name> \n
+--port=<port> --target-port=<target-port> \n
+--selector=<label-selector>
+```

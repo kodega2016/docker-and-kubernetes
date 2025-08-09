@@ -93,3 +93,16 @@ kubectl expose deployment <deployment-name> --type=NodePort \n
 --port=<port> --target-port=<target-port> \n
 --selector=<label-selector>
 ```
+
+## Customizing NodePort Service IP ranges
+
+The kubernetes configuration file is located at `/etc/kubectnetes` folder.So
+we also can customize the default NodePort service IP ranges by editing the
+
+There we can customize the default NodePort service IP ranges by editing the
+`/etc/kubernetes/manifests/kube-apiserver.yaml` file and adding the
+`--service-node-port-range` flag to the `kube-apiserver` container.
+
+```yaml
+--service-node-port-range=30000-32767
+```

@@ -7,6 +7,7 @@
   - [ClusterIP Service](#clusterip-service)
   - [NodePort Service](#nodeport-service)
   - [Customizing NodePort Service IP ranges](#customizing-nodeport-service-ip-ranges)
+  - [LoadBalancer Service](#loadbalancer-service)
   <!--toc:end-->
 
 We are going to cover the following topics in this section:
@@ -125,3 +126,29 @@ Load balancer,
 AWS- AWS Net work load balancer
 AZURE- Azure Load Balancer
 GCP- GCP Load Balancer
+
+## MetalLB for On-Premises Load Balancing
+
+We can use MetalLB to provide load balancing for services in an on-premises
+server. MetalLB is a load balancer implementation for bare metal Kubernetes
+clusters. It allows you to expose services using a LoadBalancer type service.
+
+Components of MetalLB:
+
+- **Controller**: Runs in the Kubernetes cluster and manages the
+  allocation of IP addresses for LoadBalancer services.It is deployed
+  as `deployment`
+
+- **Speaker**: Runs on each node and announces the IP addresses
+  allocated by the controller to the network.It is deployed as a `DaemonSet`.
+
+> [!NOTE]
+> The kube-proxy has three modes: `iptables`, `ipvs`, and `userspace`.We
+> must have `ipvs` mode enabled to use MetalLB.
+
+## ExternalIP Service
+
+It is a type of Service that allows you to expose a Service using an
+ip address that is already assigned to a node in the cluster.
+
+“I already have an IP that clients can hit — just forward traffic from it to my Pods.”

@@ -165,3 +165,6 @@ an external DNS name.
 For example,if we want to map a database service url to external name, we can use
 ExternalName service,so that we can access the database service using the cluster
 ip service name.
+
+It helps to configure CNAME records in DNS servers,so that we can access the
+external service using the cluster ip service name.

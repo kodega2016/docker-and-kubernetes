@@ -168,3 +168,9 @@ ip service name.
 
 It helps to configure CNAME records in DNS servers,so that we can access the
 external service using the cluster ip service name.
+
+We can use the following url to access the external service:
+
+```bash
+ext-name-svc.default.svc.cluster.local
+```

@@ -11,6 +11,7 @@
   - [MetalLB for On-Premises Load Balancing](#metallb-for-on-premises-load-balancing)
   - [ExternalIP Service](#externalip-service)
   - [ExternalName Service](#externalname-service)
+  - [Headless Service](#headless-service)
   <!--toc:end-->
 
 We are going to cover the following topics in this section:
@@ -174,3 +175,12 @@ We can use the following url to access the external service:
 ```bash
 ext-name-svc.default.svc.cluster.local
 ```
+
+## Headless Service
+
+It is a special type of service that doesnot have a cluster IP address which
+means it does not have a load balancer or a node port.
+
+The DNS directly resolves to the IP addresses of the pods that are
+running the service, allowing direct access to the pods without
+any load balancing.

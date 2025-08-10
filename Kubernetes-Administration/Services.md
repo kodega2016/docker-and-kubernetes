@@ -8,6 +8,9 @@
   - [NodePort Service](#nodeport-service)
   - [Customizing NodePort Service IP ranges](#customizing-nodeport-service-ip-ranges)
   - [LoadBalancer Service](#loadbalancer-service)
+  - [MetalLB for On-Premises Load Balancing](#metallb-for-on-premises-load-balancing)
+  - [ExternalIP Service](#externalip-service)
+  - [ExternalName Service](#externalname-service)
   <!--toc:end-->
 
 We are going to cover the following topics in this section:
@@ -152,3 +155,13 @@ It is a type of Service that allows you to expose a Service using an
 ip address that is already assigned to a node in the cluster.
 
 “I already have an IP that clients can hit — just forward traffic from it to my Pods.”
+
+## ExternalName Service
+
+ExternalName is a special type of Service that maps a Service to a DNS name,It
+will not create any cluster ip or load balancer,it simply maps the CNAME to
+an external DNS name.
+
+For example,if we want to map a database service url to external name, we can use
+ExternalName service,so that we can access the database service using the cluster
+ip service name.

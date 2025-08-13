@@ -20,4 +20,6 @@ spec:
           mountPath: /usr/share/nginx/html
   volumes:
     - name: shared-volumes
-      emptyDir: {}
+      # emptyDir: {}
+      emptyDir:
+        medium: Memory

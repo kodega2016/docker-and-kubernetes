@@ -43,3 +43,5 @@ It is useful for node specific configurations or for accessing host resources.
 
 If the pod is rescheduled to another node, the hostPath volume will not be available
 for that pods, so it is not suitable for persistent storage.
+
+It exists beyond the life-cycle of the pod.

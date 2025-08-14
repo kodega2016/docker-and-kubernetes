@@ -7,6 +7,7 @@
   - [Kubernetes Volumes](#kubernetes-volumes)
   - [EmptyDir Volume](#emptydir-volume)
   - [hostPath Volume](#hostpath-volume)
+  - [NFS server for kubernetes](#nfs-server-for-kubernetes)
   <!--toc:end-->
 
 ## Introduction
@@ -45,3 +46,11 @@ If the pod is rescheduled to another node, the hostPath volume will not be avail
 for that pods, so it is not suitable for persistent storage.
 
 It exists beyond the life-cycle of the pod.
+
+## NFS server for kubernetes
+
+It is a network file system that allows multiple pods and nodes to share the same
+file and directory structure. It is useful for sharing files between pods and nodes.
+
+It is great for persistent storage as it allows multiple pods to access the
+same data.

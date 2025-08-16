@@ -54,3 +54,36 @@ file and directory structure. It is useful for sharing files between pods and no
 
 It is great for persistent storage as it allows multiple pods to access the
 same data.
+
+So lets first create a nfs server in virtual machine.We need to run the following
+commands.
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+sudo apt install nfs-kernel-server -y
+```
+
+After installing we can check the status for that service using the following command.
+
+```bash
+systemctl status nfs-kernel-server
+```
+
+After that we need to make a folder to expose for nfs server.
+
+```bash
+mkdir /var/nfs
+```
+
+Now make the folder ownership to anonymous user and group.
+
+```bash
+chown nobody:nogroup /var/nfs
+```
+
+We can verify the ownership of the folder using the following command.
+
+```bash
+ls -ld /var/nfs
+```

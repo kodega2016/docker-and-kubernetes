@@ -87,3 +87,16 @@ We can verify the ownership of the folder using the following command.
 ```bash
 ls -ld /var/nfs
 ```
+
+After that add new line to the `/etc/exports` file to export the folder.
+
+```bash
+# add this line to the file
+*(rw,sync,no_subtree_check,no_root_squash)
+```
+
+We need to run the following command to export the folder.
+
+```bash
+sudo exportfs -ra
+```

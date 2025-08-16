@@ -100,3 +100,9 @@ We need to run the following command to export the folder.
 ```bash
 sudo exportfs -ra
 ```
+
+We must install the `nfs-common` package on the client machine to mount the NFS share.
+
+```bash
+sudo apt install nfs-common -y
+```

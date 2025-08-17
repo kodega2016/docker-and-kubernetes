@@ -14,22 +14,26 @@ spec:
         app: down-api
     spec:
       containers:
-       - name: write-container
-         image: alpine
-         command: ["/bin/sh"]
-         args:
+        - name: write-container
+          image: alpine
+          command: ["/bin/sh"]
+          args:
             [
               "-c",
-              "while true;do echo $(date):$POD_IP | tee -a /var/logs/index.html >> /proc/1/fd/1;sleep 10;done",
+              "while true;do echo $(date):$POD_IP:$POD_NAME | tee -a /var/logs/index.html >> /proc/1/fd/1;sleep 10;done",
             ]
-         env:
-          - name: POD_IP
-            valueFrom:
-              fieldRef:
-                fieldPath: status.podIP
-         volumeMounts:
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          volumeMounts:
             - name: shared-data
               mountPath: /var/logs
       volumes:
-          - name: shared-data
-            emptyDir: {}
+        - name: shared-data
+          emptyDir: {}

@@ -137,13 +137,14 @@ variables and by using volume mounts.These are called downward API.
 It is sometime useful for the container to know the pod information such as
 labels,annotations,namespace,pod name and pod IP address.
 
-
 ### Downward API envs
+
 We can pass the fieldRef values using the following.
+
 ```yaml
 env:
-- name: POD_IP
-  valueFrom:
-    fieldRef:
-      fieldPath: status.podIP
+  - name: POD_IP
+    valueFrom:
+      fieldRef:
+        fieldPath: status.podIP
 ```

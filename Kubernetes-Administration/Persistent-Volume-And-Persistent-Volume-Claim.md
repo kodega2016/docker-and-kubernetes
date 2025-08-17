@@ -6,6 +6,7 @@
   - [Introduction](#introduction)
   - [Persistent Volume (PV)](#persistent-volume-pv)
   - [Persistent Volume Claim (PVC)](#persistent-volume-claim-pvc)
+  - [Persistent Volume Access Modes](#persistent-volume-access-modes)
   <!--toc:end-->
 
 ## Introduction
@@ -29,6 +30,13 @@ or dynamically provisioned using Storage Classes.
 The PV is a separate resource in the cluster and is not tied to any specific pod.so
 that it can be reused by different pods.
 
+There are two modes of PV:
+
+- File system (NFS, GlusterFS, etc.)
+- Block storage (AWS EBS, GCE PD, Azure Disk, etc.)
+
+It is in cluster level and can be used by any namespace in the cluster.
+
 ## Persistent Volume Claim (PVC)
 
 It is a request for storage by a user. It is similar to a pod in that it specifies
@@ -36,3 +44,29 @@ the size and access mode of the storage required.
 
 When a PVC is created, Kubernetes will look for a PV that matches the request.
 If a matching PV is found, it will be bound to the PVC and the storage will be available
+
+It requires the size of the storage and access mode
+(ReadWriteOnce, ReadOnlyMany, or ReadWriteMany).
+
+It is namespace scoped, meaning it can only be used by the namespace in which it
+is created.When a PVC is created, Kubernetes will look for a PV that matches the
+request.
+
+## Persistent Volume Access Modes
+
+**_ReadWriteOnce_**
+It we need to give read and write access to pods running on a single node,this mode
+is not suitable for multi-node clusters.
+
+**_ReadWriteMany_**
+If we need to give read and write access to pods running on multiple nodes,this
+mode is suitable for multi-node clusters.
+
+**_ReadOnlyMany_**
+Pods running on multiple nodes can only read the data in the volume, but cannot write
+to it.
+
+**_ReadWriteOncePod_**
+In this mode, a volume can be mounted as read-write by a single pod. This is useful
+for scenarios where a volume needs to be accessed by a single pod, but that pod
+needs to be able to write to the volume.

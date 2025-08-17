@@ -112,3 +112,17 @@ We can verify the mount using the following command.
 ```bash
 mount | grep nfs
 ```
+
+## Jenkins CI CD setup with nfs server
+
+We need to create a nfs service folder in the nfs server machine.
+
+```bash
+mkdir /var/nfs/jenkins-master
+```
+
+And we need to give ownership to the folder.
+
+```bash
+sudo chown 1000:1000 /var/nfs/jenkins-master
+```

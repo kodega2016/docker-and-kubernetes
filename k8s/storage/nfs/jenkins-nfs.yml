@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-master
+  labels:
+    app: cicd
+    environment: production
+spec:
+  selector:
+    matchLabels:
+      app: cicd
+      environment: production
+  template:
+    metadata:
+      labels:
+        app: cicd
+        environment: production
+    spec:
+      containers:
+        - name: cicd-master
+          image: jenkins/jenkins:lts
+          ports:
+            - name: cicd-port
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - name: jenkins-data
+              mountPath: /var/jenkins_home
+      volumes:
+        - name: jenkins-data
+          nfs:
+            server: 192.168.105.17
+            path: /var/nfs/jenkins-master

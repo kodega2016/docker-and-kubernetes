@@ -20,7 +20,7 @@ spec:
           args:
             [
               "-c",
-              "while true; do echo $(date):$POD_IP:$POD_NAME:$(cat /var/logs/index.html) > /proc/1/fd/1; sleep 10; done",
+              "while true; do echo MEM:$MEM_LIMIT CPU:$CPU_LIMIT $(date):$POD_IP:$POD_NAME:$(cat /var/logs/index.html) > /proc/1/fd/1; sleep 10; done",
             ]
           env:
             - name: POD_IP
@@ -31,9 +31,28 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: MEM_LIMIT
+              valueFrom:
+                resourceFieldRef:
+                  containerName: write-container
+                  resource: limits.memory
+                  divisor: 1Mi
+            - name: CPU_LIMIT
+              valueFrom:
+                resourceFieldRef:
+                  containerName: write-container
+                  resource: limits.cpu
+                  divisor: 1m
           volumeMounts:
             - name: shared-data
               mountPath: /var/logs
+          resources:
+            limits:
+              memory: "200Mi"
+              cpu: "250m"
+            requests:
+              memory: "150Mi"
+              cpu: "200m"
       volumes:
         - name: shared-data
           downwardAPI:

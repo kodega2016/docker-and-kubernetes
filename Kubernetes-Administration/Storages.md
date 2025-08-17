@@ -8,6 +8,8 @@
   - [EmptyDir Volume](#emptydir-volume)
   - [hostPath Volume](#hostpath-volume)
   - [NFS server for kubernetes](#nfs-server-for-kubernetes)
+  - [Jenkins CI CD setup with nfs server](#jenkins-ci-cd-setup-with-nfs-server)
+  - [Downward API](#downward-api)
   <!--toc:end-->
 
 ## Introduction
@@ -125,4 +127,23 @@ And we need to give ownership to the folder.
 
 ```bash
 sudo chown 1000:1000 /var/nfs/jenkins-master
+```
+
+## Downward API
+
+There are two way to expose the pod information to the container,by using environment
+variables and by using volume mounts.These are called downward API.
+
+It is sometime useful for the container to know the pod information such as
+labels,annotations,namespace,pod name and pod IP address.
+
+
+### Downward API envs
+We can pass the fieldRef values using the following.
+```yaml
+env:
+- name: POD_IP
+  valueFrom:
+    fieldRef:
+      fieldPath: status.podIP
 ```

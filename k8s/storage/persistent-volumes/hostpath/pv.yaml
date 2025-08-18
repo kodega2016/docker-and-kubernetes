@@ -12,4 +12,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/var/tmp"
+    path: "/var/tmp/nginx-data"
+    type: DirectoryOrCreate

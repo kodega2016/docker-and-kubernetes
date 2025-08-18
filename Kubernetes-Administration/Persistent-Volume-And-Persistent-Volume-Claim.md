@@ -84,3 +84,10 @@ vim /etc/kubernetes/pv.yaml
 ```
 
 After removing the claimRef section,we got the pv in Available state.
+
+Always delete the pvc first and then delete the pv.
+
+```bash
+kubectl delete pvc <pvc-name>
+kubectl delete pv <pv-name>
+```

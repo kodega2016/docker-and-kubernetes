@@ -70,3 +70,17 @@ to it.
 In this mode, a volume can be mounted as read-write by a single pod. This is useful
 for scenarios where a volume needs to be accessed by a single pod, but that pod
 needs to be able to write to the volume.
+
+## PV and PVC Management
+
+After the pvc is deleted, the pv will be in Released state.so we cannot use the same
+pvc again until we make the pv available again.
+
+We can do this by editing the pv and changing the status to Available.
+
+```bash
+vim /etc/kubernetes/pv.yaml
+# where we need to remove the claimRef section
+```
+
+After removing the claimRef section,we got the pv in Available state.

@@ -7,6 +7,8 @@
   - [Persistent Volume (PV)](#persistent-volume-pv)
   - [Persistent Volume Claim (PVC)](#persistent-volume-claim-pvc)
   - [Persistent Volume Access Modes](#persistent-volume-access-modes)
+  - [PV and PVC Management](#pv-and-pvc-management)
+  - [Persistent Volume Reclaim Policies](#persistent-volume-reclaim-policies)
   <!--toc:end-->
 
 ## Introduction
@@ -91,3 +93,32 @@ Always delete the pvc first and then delete the pv.
 kubectl delete pvc <pvc-name>
 kubectl delete pv <pv-name>
 ```
+
+## Persistent Volume Reclaim Policies
+
+When a Persistent Volume (PV) is released from its claim, it can be retained,
+
+**_Retain Policy(default)_**
+Even after the PVC is deleted, the PV will not be deleted and will remain in
+the Released state.
+
+Admin has to manually update the claimRef section to make the PV available
+for reuse.
+
+**_Recycle Policy:_**
+When the PVC is deleted, the PV will be deleted automatically.So, we can reuse
+the same PVC again with new data.
+
+We do not need to manually update the claimRef section to make the PV available
+after the PVC is deleted.
+
+Your volume will be recycled and the data will be lost.
+
+**_Delete Policy:_**
+When the PVC is deleted, the PV will be deleted automatically.
+
+> [!NOTE]
+> It is recommended to use dynamic provisioning with Storage
+> Classes for the persistent volume.
+
+## Access Modes

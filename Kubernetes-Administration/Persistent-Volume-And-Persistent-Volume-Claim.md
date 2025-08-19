@@ -9,6 +9,7 @@
   - [Persistent Volume Access Modes](#persistent-volume-access-modes)
   - [PV and PVC Management](#pv-and-pvc-management)
   - [Persistent Volume Reclaim Policies](#persistent-volume-reclaim-policies)
+  - [Access Modes](#access-modes)
   <!--toc:end-->
 
 ## Introduction
@@ -122,3 +123,27 @@ When the PVC is deleted, the PV will be deleted automatically.
 > Classes for the persistent volume.
 
 ## Access Modes
+
+There are three access modes for persistent volumes in Kubernetes:
+
+- ReadWriteOnce (RWO): The volume can be mounted as read-write by a single node.
+  which means that pods running on same node can read and write to the volume.
+
+- ReadOnlyMany (ROX): The volume can be mounted as read-only by many nodes.
+  which means that pods running on different nodes can read the data in the volume,
+  but cannot write to it.
+
+- ReadWriteMany (RWX): The volume can be mounted as read-write by many nodes.
+  which means that pods running on different nodes can read and write to the volume.
+
+> [!NOTE]
+> For ReadOnlyMany and ReadOnlyOne,we need to use the `readOnly` flag in the
+> volume section of the pod spec.
+
+```yaml
+volumes:
+  - name: shared-data
+    persistentVolumeClaim:
+      claimName: my-pvc
+      readOnly: true # for ReadOnlyMany and ReadOnlyOne
+```

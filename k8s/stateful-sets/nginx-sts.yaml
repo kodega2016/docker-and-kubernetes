@@ -2,7 +2,10 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: nginx-stateful
+  labels:
+    app: nginx
 spec:
+  serviceName: nginx-svc
   replicas: 3
   selector:
     matchLabels:

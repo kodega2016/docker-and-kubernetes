@@ -10,6 +10,7 @@
   - [PV and PVC Management](#pv-and-pvc-management)
   - [Persistent Volume Reclaim Policies](#persistent-volume-reclaim-policies)
   - [Access Modes](#access-modes)
+  - [Volume Phases](#volume-phases)
   <!--toc:end-->
 
 ## Introduction
@@ -147,3 +148,13 @@ volumes:
       claimName: my-pvc
       readOnly: true # for ReadOnlyMany and ReadOnlyOne
 ```
+
+## Volume Phases
+
+There are four phases of a persistent volume in Kubernetes:
+
+- **Available**: The volume is available for use and can be bound to a PVC.
+- **Bound**: The volume is bound to a PVC and is in use by a pod
+- **Released**: The volume is released from its PVC and is not available for use.It
+  is in this state after the PVC is deleted.
+- **Failed**: The volume has failed and is not available for use.

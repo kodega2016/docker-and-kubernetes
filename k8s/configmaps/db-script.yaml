@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-backup-script
+data:
+  db_backup_sh: |
+    #!/bin/bash
+    echo "backup was initialized"
+    mysqldum -hlocalhost -uroot -psupersecret --all-databases > /tmp/db_backup.sql
+    echo "backup task was successful"

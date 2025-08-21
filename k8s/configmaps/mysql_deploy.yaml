@@ -20,7 +20,7 @@ spec:
           image: mysql:8.0
           envFrom:
             - configMapRef:
-                name: mysqlconfig
+                name: dbconfig
 
           # env:
           #   - name: MYSQL_ROOT_PASSWORD

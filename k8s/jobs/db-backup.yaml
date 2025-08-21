@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-backup
+spec:
+  template:
+    spec:
+      containers:
+        - name: mysql-client
+          image: mysql:8.0
+          args:
+            - "/bin/sh"
+            - "-c"
+            - "mysqldump -hmysql-svc.default -uroot -psupersecret --all-databases > /var/tmp/mysql_full_backup.sql"
+          volumeMounts:
+            - name: db-backup
+              mountPath: /var/tmp
+      volumes:
+        - name: db-backup
+          hostPath:
+            type: DirectoryOrCreate
+            path: /var/tmp/db_backups
+
+      restartPolicy: OnFailure

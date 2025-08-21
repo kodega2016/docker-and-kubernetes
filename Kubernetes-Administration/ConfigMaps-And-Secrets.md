@@ -5,6 +5,7 @@
 - [Config Maps and Secrets](#config-maps-and-secrets)
   - [Introduction](#introduction)
   - [ConfigMaps](#configmaps)
+  - [Secrets](#secrets)
   <!--toc:end-->
 
 ## Introduction
@@ -108,4 +109,36 @@ data:
     mysqldump -hmysql-svc.default -uroot -psupersecret --all-databases > /var/tmp/db_backup.sql
     echo "backup task was successful"
 immutable: true
+```
+
+## Secrets
+
+Is a Kubernetes object that is used to store sensitive information such as passwords,
+tokens, and SSH keys. Secrets are stored in an encoded format and are not visible
+in the Kubernetes API or in the logs.
+
+It used base64 encoding to store the data.The maximum size of a secret is 1MB.
+
+We can get help with the following command:
+
+```bash
+kubectl create secret --help
+kubectl create secret generic --help
+```
+
+To create a secret, we can use the following command:
+
+```bash
+kubectl create secret generic mysqlsecret \
+--from-literal=MYSQL_ROOT_PASSWORD=supersecret \
+--from-literal=MYSQL_USER=kodega \
+--from-literal=MYSQL_PASSWORD=thekeythekey
+```
+
+We can also include all the secrets in the pod by using `envFrom` in the pod spec.
+
+```yaml
+envFrom:
+  - secretRef:
+      name: mysqlsecret
 ```

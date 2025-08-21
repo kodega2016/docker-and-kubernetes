@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dbconfig
+data:
+  MYSQL_DATABASE: lovethecode
+  MYSQL_PASSWORD: thekeythekey
+  MYSQL_ROOT_PASSWORD: supersecret
+  MYSQL_USER: kodega

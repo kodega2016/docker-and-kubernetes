@@ -93,3 +93,19 @@ volumeMounts:
     readOnly: true
 command: ["/bin/bash", "-c", "/usr/local/bin/db_backup.sh"]
 ```
+
+We can also make the configMap immutable by setting the `immutable` field to `true`.
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-backup-script
+data:
+  db_backup.sh: |
+    #!/bin/bash
+    echo "backup was initialized"
+    mysqldump -hmysql-svc.default -uroot -psupersecret --all-databases > /var/tmp/db_backup.sql
+    echo "backup task was successful"
+immutable: true
+```

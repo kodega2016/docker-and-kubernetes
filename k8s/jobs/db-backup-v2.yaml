@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mysql-backup
+spec:
+  template:
+    spec:
+      containers:
+        - name: mysql-client
+          image: mysql:8.0
+          command: ["/bin/sh", "-c", "bash /tmp/mysql_db_backup.sh"]
+          volumeMounts:
+            - name: db-backup
+              mountPath: /var/tmp
+
+            - name: db-script
+              mountPath: /tmp
+      volumes:
+        - name: db-backup
+          hostPath:
+            type: DirectoryOrCreate
+            path: "/var/tmp/db_backups"
+
+        - name: db-script
+          configMap:
+            name: db-backup-script
+            items:
+              - key: db_backup.sh
+                path: mysql_db_backup.sh
+      restartPolicy: OnFailure

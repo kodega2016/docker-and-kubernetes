@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    app: mysql
+    env: prod
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+        env: prod
+    spec:
+      containers:
+        - name: db
+          image: mysql:8.0
+          envFrom:
+            - configMapRef:
+                name: mysqlconfig
+
+          # env:
+          #   - name: MYSQL_ROOT_PASSWORD
+          #     valueFrom:
+          #       configMapKeyRef:
+          #         name: mysqlconfig
+          #         key: MYSQL_ROOT_PASSWORD
+
+          #   - name: MYSQL_USER
+          #     valueFrom:
+          #       configMapKeyRef:
+          #         name: mysqlconfig
+          #         key: MYSQL_USER
+
+          #   - name: MYSQL_PASSWORD
+          #     valueFrom:
+          #       configMapKeyRef:
+          #         name: mysqlconfig
+          #         key: MYSQL_PASSWORD
+
+          #   - name: MYSQL_DATABASE
+          #     valueFrom:
+          #       configMapKeyRef:
+          #         name: mysqlconfig
+          #         key: MYSQL_DATABASE
+
+          ports:
+            - containerPort: 3306
+
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+          resources:
+            requests:
+              cpu: '1m'
+              memory: 1Gi
+            limits:
+              cpu: '1m'
+              memory: 1Gi
+      volumes:
+        - name: mysql-data
+          emptyDir: {}

@@ -4,7 +4,7 @@
 
 - [Scheduling Workloads](#scheduling-workloads)
   - [Introduction to Scheduling Workloads](#introduction-to-scheduling-workloads)
-  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes)
+  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes) - [nodeName](#nodename)
   <!--toc:end-->
 
 ## Introduction to Scheduling Workloads
@@ -88,3 +88,6 @@ spec:
     - name: my-container
       image: my-image
 ```
+
+> [!NOTE]
+> We can pass only one node name in the nodeName field.

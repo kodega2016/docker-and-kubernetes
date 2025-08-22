@@ -142,3 +142,22 @@ envFrom:
   - secretRef:
       name: mysqlsecret
 ```
+
+To access the private docker registry, we can create a secret with the following
+command:
+
+```bash
+kubectl create secret docker-registry myregistrykey \
+  --docker-server=https://index.docker.io/v1/ \
+  --docker-username=myname \
+  --docker-password=mypassword \
+  --
+```
+
+After that we can use the `imagePullSecrets` in the pod spec to access the private
+registry.
+
+```yaml
+imagePullSecrets:
+  - name: myregistrykey
+```

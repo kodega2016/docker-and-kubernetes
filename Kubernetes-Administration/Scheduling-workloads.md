@@ -4,7 +4,7 @@
 
 - [Scheduling Workloads](#scheduling-workloads)
   - [Introduction to Scheduling Workloads](#introduction-to-scheduling-workloads)
-  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes) - [nodeName](#nodename)
+  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes) - [nodeName](#nodename) - [nodeSelector](#nodeselector)
   <!--toc:end-->
 
 ## Introduction to Scheduling Workloads
@@ -91,3 +91,18 @@ spec:
 
 > [!NOTE]
 > We can pass only one node name in the nodeName field.
+
+### nodeSelector
+
+We can use nodeSelector to schedule pods based on labels assigned to nodes.
+To assign the labels to the nodes, we can use the following command:
+
+```bash
+kubectl label nodes <node-name> <label-key>=<label-value>
+```
+
+To remove a label from a node, we can use the following command:
+
+```bash
+kubectl label nodes <node-name> <label-key>-
+```

@@ -4,8 +4,12 @@
 
 - [Scheduling Workloads](#scheduling-workloads)
   - [Introduction to Scheduling Workloads](#introduction-to-scheduling-workloads)
-  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes) - [nodeName](#nodename) - [nodeSelector(exact match)](#nodeselectorexact-match) - [nodeAffinity operators](#nodeaffinity-operators) - [Rules in nodeAffinity](#rules-in-nodeaffinity)
-  <!--toc:end-->
+  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes)
+    - [nodeName](#nodename)
+    - [nodeSelector(exact match)](#nodeselectorexact-match)
+    - [nodeAffinity operators](#nodeaffinity-operators)
+    - [Rules in nodeAffinity](#rules-in-nodeaffinity)
+    <!--toc:end-->
 
 ## Introduction to Scheduling Workloads
 

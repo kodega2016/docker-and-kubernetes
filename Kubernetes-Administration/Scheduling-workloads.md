@@ -212,3 +212,9 @@ nodeAffinity:
 > [!NOTE]
 > Here, the pods will be scheduled only on the nodes,which have the label
 > either dev or prod.
+
+We can remove the label from the resources using the following command.
+
+```bash
+kubectl label node k8s-worker1 env-
+```

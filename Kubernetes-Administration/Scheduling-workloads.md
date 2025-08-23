@@ -218,3 +218,7 @@ We can remove the label from the resources using the following command.
 ```bash
 kubectl label node k8s-worker1 env-
 ```
+
+> [!NOTE]
+> After the pod is scheduled, if we remove the label from the node,it will not
+> remove the pod from the node.

@@ -106,3 +106,23 @@ To remove a label from a node, we can use the following command:
 ```bash
 kubectl label nodes <node-name> <label-key>-
 ```
+
+Then we can pass the same label in the pod specification to schedule the pod
+to the node with the matching label.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  nodeSelector:
+    disktype: ssd
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        - containerPort: 80
+```

@@ -4,7 +4,7 @@
 
 - [Scheduling Workloads](#scheduling-workloads)
   - [Introduction to Scheduling Workloads](#introduction-to-scheduling-workloads)
-  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes) - [nodeName](#nodename) - [nodeSelector](#nodeselector)
+  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes) - [nodeName](#nodename) - [nodeSelector(exact match)](#nodeselectorexact-match) - [nodeAffinity operators](#nodeaffinity-operators) - [Rules in nodeAffinity](#rules-in-nodeaffinity)
   <!--toc:end-->
 
 ## Introduction to Scheduling Workloads
@@ -92,7 +92,7 @@ spec:
 > [!NOTE]
 > We can pass only one node name in the nodeName field.
 
-### nodeSelector
+### nodeSelector(exact match)
 
 We can use nodeSelector to schedule pods based on labels assigned to nodes.
 To assign the labels to the nodes, we can use the following command:
@@ -126,3 +126,85 @@ spec:
       ports:
         - containerPort: 80
 ```
+
+> [!NOTE]
+> It support exact match for the key-value pair.If the node with the matching
+> key-value pair is not found, the pod will remain in the pending state.
+
+### nodeAffinity operators
+
+We can use different operators with nodeAffinity to schedule pods based on labels
+using different matching criteria.
+
+**_In_**:
+It checks if the node's label value is in the specified list of values.
+
+```yaml
+- key: disktype
+  operator: In
+  values:
+    - ssd
+    - hdd
+```
+
+It must have at least one value in the values list.
+
+**_NotIn_**:
+It checks if the node's label value is not in the specified list of values.
+
+```yaml
+- key: disktype
+  operator: NotIn
+  values:
+    - ssd
+```
+
+**_Exists_**:
+
+- It checks if the node has the specified label key, regardless of its value.
+
+```yaml
+- key: disktype
+  operator: Exists
+```
+
+**_DoesNotExist_**:
+It checks if the node does not have the specified label key.
+
+```yaml
+- key: disktype
+  operator: DoesNotExist
+```
+
+GT (Greater Than) and LT (Less Than):
+We also have the option to use GT and LT operators to compare numeric values.
+
+### Rules in nodeAffinity
+
+There are two types of rules in nodeAffinity:
+
+- RequiredDuringSchedulingIgnoredDuringExecution
+- PreferredDuringSchedulingIgnoredDuringExecution
+
+RequiredDuringSchedulingIgnoredDuringExecution:
+It is a hard requirement, which means that the pod will only be scheduled
+after finding a node that meets the criteria.
+
+It is required during scheduling but ignored during execution, meaning that
+the pod will not be evicted if the node's labels change after the pod is scheduled.
+
+```yaml
+nodeAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: env
+            operator: In
+            values:
+              - dev
+              - prod
+```
+
+> [!NOTE]
+> Here, the pods will be scheduled only on the nodes,which have the label
+> either dev or prod.

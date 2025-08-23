@@ -232,25 +232,26 @@ It also has two types of rules:
 - requiredDuringSchedulingIgnoredDuringExecution
 - preferredDuringSchedulingIgnoredDuringExecution
 
-We need to define the topologyKey also for the requiredDuringSchedulingIgnoredDuringExecution rules:
+We need to define the topologyKey also for the requiredDuringSchedulingIgnoredDuringExecution
+rules:
 
 ```yaml
 topologyKey: kubernetes.io/hostname
 ```
 
-We also can apply the aniaffinity with this.
+We also can apply the anti-affinity with this.
 
 ```yaml
 affinity:
   podAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
-    - weight: 100
-      podAffinityTerm:
-        labelSelector:
-          matchExpressions:
-          - key: app
-            operator: In
-            values:
-            - web
-        topologyKey: "kubernetes.io/hostname"
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - web
+          topologyKey: "kubernetes.io/hostname"
 ```

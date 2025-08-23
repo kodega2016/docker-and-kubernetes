@@ -237,3 +237,20 @@ We need to define the topologyKey also for the requiredDuringSchedulingIgnoredDu
 ```yaml
 topologyKey: kubernetes.io/hostname
 ```
+
+We also can apply the aniaffinity with this.
+
+```yaml
+affinity:
+  podAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - web
+        topologyKey: "kubernetes.io/hostname"
+```

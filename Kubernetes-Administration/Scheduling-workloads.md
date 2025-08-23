@@ -4,12 +4,8 @@
 
 - [Scheduling Workloads](#scheduling-workloads)
   - [Introduction to Scheduling Workloads](#introduction-to-scheduling-workloads)
-  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes)
-    - [nodeName](#nodename)
-    - [nodeSelector(exact match)](#nodeselectorexact-match)
-    - [nodeAffinity operators](#nodeaffinity-operators)
-    - [Rules in nodeAffinity](#rules-in-nodeaffinity)
-    <!--toc:end-->
+  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes) - [nodeName](#nodename) - [nodeSelector(exact match)](#nodeselectorexact-match) - [nodeAffinity operators](#nodeaffinity-operators) - [Rules in nodeAffinity](#rules-in-nodeaffinity) - [Pod Affinity](#pod-affinity)
+  <!--toc:end-->
 
 ## Introduction to Scheduling Workloads
 
@@ -222,3 +218,22 @@ kubectl label node k8s-worker1 env-
 > [!NOTE]
 > After the pod is scheduled, if we remove the label from the node,it will not
 > remove the pod from the node.
+
+### Pod Affinity
+
+It is used to schedule pods based on the labels of other pods.so if we want to
+run a pod on the same node as another pod, we can use pod affinity.
+
+It is useful for co-locating pods that need to communicate with each other
+such as application and its database.
+
+It also has two types of rules:
+
+- requiredDuringSchedulingIgnoredDuringExecution
+- preferredDuringSchedulingIgnoredDuringExecution
+
+We need to define the topologyKey also for the requiredDuringSchedulingIgnoredDuringExecution rules:
+
+```yaml
+topologyKey: kubernetes.io/hostname
+```

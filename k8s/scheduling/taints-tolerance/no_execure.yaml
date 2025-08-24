@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  tolerations:
+    - key: type
+      operator: Equal
+      value: master
+      effect: NoExecute
+
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: Exists
+      effect: NoSchedule
+
+    - key: env
+      operator: Equal
+      value: prod
+      effect: NoExecute
+      
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+            - key: type
+              operator: In
+              values: 
+                - master
+
+            
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "500m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80

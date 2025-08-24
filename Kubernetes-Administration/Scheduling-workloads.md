@@ -4,8 +4,14 @@
 
 - [Scheduling Workloads](#scheduling-workloads)
   - [Introduction to Scheduling Workloads](#introduction-to-scheduling-workloads)
-  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes) - [nodeName](#nodename) - [nodeSelector(exact match)](#nodeselectorexact-match) - [nodeAffinity operators](#nodeaffinity-operators) - [Rules in nodeAffinity](#rules-in-nodeaffinity) - [Pod Affinity](#pod-affinity) - [Taints and Tolerations](#taints-and-tolerations) - [Anatomy of a Taint](#anatomy-of-a-taint)
-  <!--toc:end-->
+  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes)
+    - [nodeName](#nodename)
+    - [nodeSelector(exact match)](#nodeselectorexact-match)
+    - [nodeAffinity operators](#nodeaffinity-operators)
+    - [Rules in nodeAffinity](#rules-in-nodeaffinity)
+    - [Pod Affinity](#pod-affinity) - [Taints and Tolerations](#taints-and-tolerations)
+    - [Anatomy of a Taint](#anatomy-of-a-taint)
+    <!--toc:end-->
 
 ## Introduction to Scheduling Workloads
 

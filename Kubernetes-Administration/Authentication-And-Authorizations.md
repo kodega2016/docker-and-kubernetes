@@ -7,7 +7,7 @@
     - [Authentication Methods](#authentication-methods)
     - [Authorization Methods](#authorization-methods)
   - [Kubernetes Authentication Strategies](#kubernetes-authentication-strategies)
-  - [Kubernetes Authorization Strategies](#kubernetes-authorization-strategies)
+  - [Kubernetes Authorization Strategies](#kubernetes-authorization-strategies) - [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
   <!--toc:end-->
 
 ## Introduction
@@ -89,3 +89,49 @@ There are following strategies for authorizing actions in a Kubernetes cluster:
 - Node Authorization
   It is a built-in authorization mode that restricts what actions nodes can perform.
   by the kubelet.
+
+- Webhook
+  It allows you to delegate authorization decisions to an external service.
+
+### Role-Based Access Control (RBAC)
+
+There are four main components in RBAC:
+
+- Role: A set of permissions that can be assigned to users or service accounts.
+- ClusterRole: Similar to a Role, but it applies to the entire cluster.
+- RoleBinding: Binds a Role to a user or service account within a specific namespace.
+- ClusterRoleBinding: Binds a ClusterRole to a user or service account across the
+
+> [!NOTE]
+> Role is scoped to a namespace,while ClusterRole is not
+Role can be defined using the following synatx.
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: dev
+  name: pod-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+```
+
+Role Binding can be defined using the follwoing synax:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-pods-binding
+  namespace: dev
+subjects:
+- kind: User
+  name: alice        # this user
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io
+```

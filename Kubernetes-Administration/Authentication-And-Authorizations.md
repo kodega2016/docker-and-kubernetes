@@ -7,7 +7,9 @@
     - [Authentication Methods](#authentication-methods)
     - [Authorization Methods](#authorization-methods)
   - [Kubernetes Authentication Strategies](#kubernetes-authentication-strategies)
-  - [Kubernetes Authorization Strategies](#kubernetes-authorization-strategies) - [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
+  - [Kubernetes Authorization Strategies](#kubernetes-authorization-strategies)
+    - [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
+  - [Understanding the kubeconfig file](#understanding-the-kubeconfig-file)
   <!--toc:end-->
 
 ## Introduction
@@ -103,35 +105,30 @@ There are four main components in RBAC:
 - ClusterRoleBinding: Binds a ClusterRole to a user or service account across the
 
 > [!NOTE]
-> Role is scoped to a namespace,while ClusterRole is not
-Role can be defined using the following synatx.
+> Role is scoped to a namespace,while ClusterRole is not.
 
-```yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  namespace: dev
-  name: pod-reader
-rules:
-- apiGroups: [""]
-  resources: ["pods"]
-  verbs: ["get", "list"]
+## Understanding the kubeconfig file
+
+The kubeconfig file is used to configure access to Kubernetes clusters. It contains
+the necessary information for kubectl to connect to the cluster, including the API
+server address, user credentials, and context information.
+
+The kubeconfig file is typically located at `~/.kube/config`, but you can specify
+the custom location using the `KUBECONFIG` environment variable or the `--kubeconfig`.
+
+We can view the current context using the following command:
+
+```bash
+kubectl config current-context
+kubectl config view
 ```
 
-Role Binding can be defined using the follwoing synax:
+If we lost the file, we can recreate it using the following command:
 
-```yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: read-pods-binding
-  namespace: dev
-subjects:
-- kind: User
-  name: alice        # this user
-  apiGroup: rbac.authorization.k8s.io
-roleRef:
-  kind: Role
-  name: pod-reader
-  apiGroup: rbac.authorization.k8s.io
+```bash
+sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
 ```
+
+> [!NOTE]
+> The configuration file is stored in the `/etc/kubernetes` directory on the
+> master node.

@@ -6,7 +6,8 @@
   - [Introduction](#introduction)
     - [Authentication Methods](#authentication-methods)
     - [Authorization Methods](#authorization-methods)
-    <!--toc:end-->
+  - [Kubernetes Authentication Strategies](#kubernetes-authentication-strategies)
+  <!--toc:end-->
 
 ## Introduction
 
@@ -42,3 +43,24 @@ There are several authorization methods in Kubernetes:
 
 - Node Authorization: Node authorization is a built-in authorization mode that
   restricts what actions nodes can perform.
+
+## Kubernetes Authentication Strategies
+
+There are several strategies for authenticating to a Kubernetes cluster:
+
+- Service Accounts
+- Normal User Accounts
+
+**_Service Accounts_**
+These are special accounts used by applications running in pods to interact with
+the kubernetes API. Each namespace has its own set of service accounts.
+
+We can create service account and bind it to a role using the following commands:
+
+```bash
+kubectl create serviceaccount my-service-account -n my-namespace
+kubectl create rolebinding my-role-binding \
+--role=my-role \
+--serviceaccount=my-namespace:my-service-account \
+-n my-namespace
+```

@@ -313,3 +313,10 @@ tolerations:
     value: "master"
     effect: "NoSchedule"
 ```
+
+To remove the taint from the node, we can use the following command:
+
+```bash
+kubectl taint nodes <node-name> <key>:<effect>-
+kubectl taint nodes k8s-master type:NoSchedule-
+```

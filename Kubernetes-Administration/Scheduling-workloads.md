@@ -4,7 +4,7 @@
 
 - [Scheduling Workloads](#scheduling-workloads)
   - [Introduction to Scheduling Workloads](#introduction-to-scheduling-workloads)
-  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes) - [nodeName](#nodename) - [nodeSelector(exact match)](#nodeselectorexact-match) - [nodeAffinity operators](#nodeaffinity-operators) - [Rules in nodeAffinity](#rules-in-nodeaffinity) - [Pod Affinity](#pod-affinity)
+  - [Scheduler Workloads on Kubernetes](#scheduler-workloads-on-kubernetes) - [nodeName](#nodename) - [nodeSelector(exact match)](#nodeselectorexact-match) - [nodeAffinity operators](#nodeaffinity-operators) - [Rules in nodeAffinity](#rules-in-nodeaffinity) - [Pod Affinity](#pod-affinity) - [Taints and Tolerations](#taints-and-tolerations) - [Anatomy of a Taint](#anatomy-of-a-taint)
   <!--toc:end-->
 
 ## Introduction to Scheduling Workloads
@@ -254,4 +254,62 @@ affinity:
                 values:
                   - web
           topologyKey: "kubernetes.io/hostname"
+```
+
+### Taints and Tolerations
+
+In production,we want to control which pods can be scheduled on which nodes.For example,
+we may want to run specific workloads such as gpu workloads on specific nodes.
+
+Some nodes should not run any workloads, such as control plane nodes.
+
+Taints marks the nodes to repel certain pods from being scheduled on them whereas
+tolerations allow pods to be scheduled on nodes with specific taints.
+
+#### Anatomy of a Taint
+
+A taint has three parts:
+
+- key
+- value
+- effect
+
+Here,key and value are arbitrary strings that we define, and effect can be one of
+the following:
+
+- NoSchedule: Pods that do not tolerate this taint will not be scheduled on the node.
+- PreferNoSchedule: The scheduler will try to avoid placing pods that do not tolerate
+  the taint on the node, but it is not guaranteed.
+- NoExecute: Pods that do not tolerate this taint will be evicted from the node
+
+```bash
+kubectl taint nodes worker-1 gpu=true:NoSchedule
+```
+
+So now, any pod that does not have a toleration for this taint will not be scheduled,
+to run a pod on this node, we need to add the following toleration in the pod specification.
+
+```yaml
+tolerations:
+  - key: "type"
+    operator: "Equal"
+    value: "master"
+    effect: "NoSchedule"
+```
+
+To set the tains for the master node, we can use the following command:
+
+```bash
+kubectl taint nodes k8s-master type=master:NoSchedule
+```
+
+To allow the pods to be scheduled on the master node, we need to add the above toleration
+in the pod specification.
+
+```yaml
+tolerations:
+  - key: "type"
+    operator: "Equal"
+    value: "master"
+    effect: "NoSchedule"
 ```

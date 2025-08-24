@@ -7,6 +7,7 @@
     - [Authentication Methods](#authentication-methods)
     - [Authorization Methods](#authorization-methods)
   - [Kubernetes Authentication Strategies](#kubernetes-authentication-strategies)
+  - [Kubernetes Authorization Strategies](#kubernetes-authorization-strategies)
   <!--toc:end-->
 
 ## Introduction
@@ -64,3 +65,27 @@ kubectl create rolebinding my-role-binding \
 --serviceaccount=my-namespace:my-service-account \
 -n my-namespace
 ```
+
+In order to implement user name and password,we need to enable the LDAP authentication
+mechanism in the API server configuration.
+
+The normal user can be the following:
+
+- certificates based authentication
+- token based authentication
+- username and password authentication
+
+## Kubernetes Authorization Strategies
+
+There are following strategies for authorizing actions in a Kubernetes cluster:
+
+- Attribute-Based Access Control (ABAC)
+  It is a JSON file that defines policies based on user attributes.
+
+- Role-Based Access Control (RBAC)
+  It is the most common method for authorization in Kubernetes.Where we create roles
+  and bind them to users or service accounts.It is called role binding.
+
+- Node Authorization
+  It is a built-in authorization mode that restricts what actions nodes can perform.
+  by the kubelet.

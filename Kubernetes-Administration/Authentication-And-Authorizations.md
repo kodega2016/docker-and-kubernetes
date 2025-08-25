@@ -211,3 +211,35 @@ kubectl get pods
 
 We will get forbidden error because the user `kode` does not have any permissions,
 so we need to create a role and bind it to the user.
+
+We can create role using the following yaml file:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-read-access
+  namespace: default
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+```
+
+And RoleBinding using the following yaml file:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pod-role-binding
+  namespace: default
+subjects:
+  - kind: User
+    name: kode
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pod-read-access
+  apiGroup: rbac.authorization.k8s.io
+```

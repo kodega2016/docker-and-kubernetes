@@ -10,7 +10,7 @@
   - [Kubernetes Authorization Strategies](#kubernetes-authorization-strategies)
     - [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
   - [Understanding the kubeconfig file](#understanding-the-kubeconfig-file)
-  - [Certificate Based Authentication](#certificate-based-authentication)
+  - [Certificate Based Authentication](#certificate-based-authentication) - [Role and RoleBinding](#role-and-rolebinding) - [ClusterRole and ClusterRoleBinding](#clusterrole-and-clusterrolebinding)
   <!--toc:end-->
 
 ## Introduction
@@ -209,6 +209,10 @@ Lets try to list the pods in the default namespace using the following command:
 kubectl get pods
 ```
 
+### Role and RoleBinding
+
+It is used to grant permissions within a specific namespace.
+
 We will get forbidden error because the user `kode` does not have any permissions,
 so we need to create a role and bind it to the user.
 
@@ -246,3 +250,38 @@ roleRef:
 
 > [!NOTE]
 > Here [""] means the core API group.
+
+### ClusterRole and ClusterRoleBinding
+
+If we want to grant permissions across the entire cluster, we can use ClusterRole
+and ClusterRoleBinding.
+
+The following yaml file creates a ClusterRole that grants read access to pods.
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pod-read-access
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+```
+
+The cluster role binding binds the ClusterRole to the user `kode`.
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: pod-clusterrole-binding
+subjects:
+  - kind: User
+    name: kode # Name is case sensitive
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: pod-read-access
+  apiGroup: rbac.authorization.k8s.io
+```

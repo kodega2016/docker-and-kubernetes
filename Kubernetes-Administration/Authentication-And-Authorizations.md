@@ -243,3 +243,6 @@ roleRef:
   name: pod-read-access
   apiGroup: rbac.authorization.k8s.io
 ```
+
+> [!NOTE]
+> Here [""] means the core API group.

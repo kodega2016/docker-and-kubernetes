@@ -10,6 +10,7 @@
   - [Kubernetes Authorization Strategies](#kubernetes-authorization-strategies)
     - [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
   - [Understanding the kubeconfig file](#understanding-the-kubeconfig-file)
+  - [Certificate Based Authentication](#certificate-based-authentication)
   <!--toc:end-->
 
 ## Introduction
@@ -132,3 +133,81 @@ sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
 > [!NOTE]
 > The configuration file is stored in the `/etc/kubernetes` directory on the
 > master node.
+
+## Certificate Based Authentication
+
+First we need to create a 509 certificate for the user,for this we can use the
+openssl tool.We can use that certificate to authenticate to the kubernetes
+cluster.
+
+First need to generate a private key using the following command:
+
+```bash
+openssl genrsa -out kode.key 2048
+```
+
+Here,a new private key named `kode.key` is created with the size of 2048 bits.
+
+We need to create a certificate signing request(CSR) for the information about
+the certificate using the following command:
+
+```bash
+openssl req -new -key kode.key -out kode.csr -subj "/CN=kode/O=admin/OU=devops"
+```
+
+Then we need to sign the CSR using the Kubernetes CA to generate a client certificate
+for the user using the following command:
+
+```bash
+openssl x509 -req -in ~/authentication/kode.csr \
+  -CA /etc/kubernetes/pki/ca.crt \
+  -CAkey /etc/kubernetes/pki/ca.key \
+  -set_serial 101 \
+  -extensions client \
+  -days 365 \
+  -outform PEM \
+  -out ~/authentication/kode.crt
+```
+
+Now,we need to update or create kubeconfig file for the user.
+
+```bash
+kubectl config set-credentials kode \
+  --client-certificate=~/authentication/kode.crt \
+  --client-key=~/authentication/kode.key
+```
+
+This will create a new user named `kode` in the kubeconfig file with the
+client certificate and key.
+
+We can view using the following command:
+
+```bash
+kubectl config view
+```
+
+Now, We need to create a context for the user using the following command:
+
+```bash
+kubectl config set-context kode-context \
+  --cluster=kubernetes \
+  --user=kode \
+  --namespace=default
+```
+
+Now,the new context is created for the user `kode` in the kubeconfig file.
+
+We can switch to the new context using the following command:
+
+```bash
+kubectl config use-context kode-context
+```
+
+Lets try to list the pods in the default namespace using the following command:
+
+```bash
+kubectl get pods
+```
+
+We will get forbidden error because the user `kode` does not have any permissions,
+so we need to create a role and bind it to the user.

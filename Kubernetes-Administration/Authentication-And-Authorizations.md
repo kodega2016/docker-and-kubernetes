@@ -10,7 +10,8 @@
   - [Kubernetes Authorization Strategies](#kubernetes-authorization-strategies)
     - [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
   - [Understanding the kubeconfig file](#understanding-the-kubeconfig-file)
-  - [Certificate Based Authentication](#certificate-based-authentication) - [Role and RoleBinding](#role-and-rolebinding) - [ClusterRole and ClusterRoleBinding](#clusterrole-and-clusterrolebinding)
+  - [Certificate Based Authentication](#certificate-based-authentication)
+  - [Role and RoleBinding](#role-and-rolebinding) - [ClusterRole and ClusterRoleBinding](#clusterrole-and-clusterrolebinding)
   <!--toc:end-->
 
 ## Introduction

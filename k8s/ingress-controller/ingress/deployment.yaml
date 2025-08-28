@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-webapp1
+  labels:
+    app: nginx-webapp1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-webapp1
+      type: web
+  template:
+    metadata:
+      labels:
+        app: nginx-webapp1
+        type: web
+    spec:
+      initContainers:
+        - name: web-content
+          image: busybox
+          command:
+            [
+              "/bin/sh",
+              "-c",
+              'echo "<h1>Welcome to the application 01</h1>" > /webdata/index.html',
+            ]
+          volumeMounts:
+            - name: webdata
+              mountPath: /webdata
+      containers:
+        - name: webapp
+          image: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: webdata
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: webdata
+          emptyDir: {}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-webapp2
+  labels:
+    app: nginx-webapp2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-webapp2
+      type: web
+  template:
+    metadata:
+      labels:
+        app: nginx-webapp2
+        type: web
+    spec:
+      initContainers:
+        - name: web-content
+          image: busybox
+          command:
+            [
+              "/bin/sh",
+              "-c",
+              'echo "<h1>Welcome to the application 02</h1>" > /webdata/index.html',
+            ]
+          volumeMounts:
+            - name: webdata
+              mountPath: /webdata
+      containers:
+        - name: webapp
+          image: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: webdata
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: webdata
+          emptyDir: {}

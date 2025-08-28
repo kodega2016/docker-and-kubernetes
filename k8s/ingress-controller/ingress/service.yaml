@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-app1-svc
+spec:
+  selector:
+    app: nginx-webapp1
+  ports:
+    - name: nginx-webapp1
+      port: 80
+      targetPort: 80
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-app2-svc
+spec:
+  selector:
+    app: nginx-webapp2
+  ports:
+    - name: nginx-webapp2
+      port: 80
+      targetPort: 80
+      protocol: TCP

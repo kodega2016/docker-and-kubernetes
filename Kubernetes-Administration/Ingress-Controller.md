@@ -4,6 +4,7 @@
 
 - [Ingress Controller](#ingress-controller)
   - [Introduction](#introduction)
+  - [Deploy Ingress resources for k8s(host based routing)](#deploy-ingress-resources-for-k8shost-based-routing)
   <!--toc:end-->
 
 ## Introduction
@@ -49,3 +50,5 @@ kubectl apply -f config/crd/bases/k8s.nginx.org_transportservers.yaml
 kubectl apply -f config/crd/bases/k8s.nginx.org_policies.yaml
 kubectl apply -f config/crd/bases/k8s.nginx.org_globalconfigurations.yaml
 ```
+
+## Deploy Ingress resources for k8s(host based routing)

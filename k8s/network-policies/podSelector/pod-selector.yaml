@@ -14,6 +14,9 @@ spec:
         - podSelector:
             matchLabels:
               app: nginx
+        - namespaceSelector:
+            matchLabels:
+              app: monitoring
       ports:
         - port: 80
           protocol: TCP

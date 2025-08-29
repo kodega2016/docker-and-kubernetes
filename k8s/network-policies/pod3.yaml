@@ -4,7 +4,7 @@ metadata:
   name: podc-demo
   labels:
     app: nginx
-  namespace: source
+  namespace: monitoring
 spec:
   containers:
     - name: nginx

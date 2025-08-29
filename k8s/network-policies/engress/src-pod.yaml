@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "nginx-src-app"
+  namespace: source
+  labels:
+    app: nginx-src
+spec:
+  containers:
+    - name: nginx-src
+      image: "nginx:alpine"
+      ports:
+        - containerPort: 80
+          name: http

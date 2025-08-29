@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "nginx-dest-app"
+  namespace: destination
+  labels:
+    app: nginx-dest
+spec:
+  containers:
+    - name: nginx-dest
+      image: "nginx:alpine"
+      ports:
+        - containerPort: 80
+          name: http

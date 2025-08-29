@@ -3,7 +3,7 @@
 <!--toc:start-->
 
 - [Network Policies](#network-policies)
-  - [Introduction](#introduction)
+  - [Introduction](#introduction) - [Igress Type ipBlock](#igress-type-ipblock)
   <!--toc:end-->
 
 ## Introduction
@@ -106,5 +106,18 @@ spec:
             cidr: 10.244.0.0/16 # allow the entire pod CIDR range
             except:
               - 10.244.235.192/26 # exclude master’s pod range
-
 ```
+
+We also can have the selector for namespace and pods.
+
+```yaml
+- namespaceSelector:
+    matchLabels:
+      purpose: test
+  podSelector:
+    matchLabels:
+      role: frontend
+```
+
+This rule allows traffic from pods with the label role=frontend in
+the namespace with the label purpose=test.

@@ -62,6 +62,9 @@ spec:
         - namespaceSelector:
             matchLabels:
               project: myproject
+            podSelector:
+              matchLabels:
+                role: frontend
         - podSelector:
             matchLabels:
               role: frontend

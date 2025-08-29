@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: pod-traffic-source
+  namespace: source
+spec:
+  podSelector:
+    matchLabels:
+      app: nginx-src
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: nginx
+      ports:
+        - port: 80
+          protocol: TCP

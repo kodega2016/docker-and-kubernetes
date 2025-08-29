@@ -79,3 +79,32 @@ spec:
         - protocol: TCP
           port: 5978
 ```
+
+### Igress Type ipBlock
+
+We can get the range of IP CIDR for the each node using the following command:
+
+```bash
+kubectl get ipamblocks.crd.projectcalico.org \
+  -o jsonpath='{range .items[*]}{.spec.affinity}{" => "}{.spec.cidr}{"\n"}{end}'
+
+```
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-workers-except-master
+  namespace: default
+spec:
+  podSelector: {} # applies to all pods in namespace
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - ipBlock:
+            cidr: 10.244.0.0/16 # allow the entire pod CIDR range
+            except:
+              - 10.244.235.192/26 # exclude master’s pod range
+
+```

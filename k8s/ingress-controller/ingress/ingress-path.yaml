@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress-app
+  annotations:
+    nginx.org/rewrites: "serviceName=nginx-app1-svc rewrite=/;serviceName=nginx-app2-svc rewrite=/"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: www.kodega-ops.com
+      http:
+        paths:
+          - path: /app
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-app1-svc
+                port:
+                  number: 80
+          - path: /workers
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-app2-svc
+                port:
+                  number: 80

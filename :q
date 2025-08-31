@@ -1,0 +1,28 @@
+
+[env]
+TERM = "xterm-256color"
+
+[window]
+padding.x = 10
+padding.y = 10
+
+decorations = "Buttonless"
+opacity = 0.8
+blur = true 
+
+option_as_alt = "Both"
+
+[font]
+normal.family="Cascadia Mono NF"
+# normal.family = "UbuntuMono Nerd Font Mono"
+# normal.family="DepartureMono Nerd Font Mono"
+# normal.family = "MonaspiceKr Nerd Font Mono"
+# normal.family = "BlexMono Nerd Font Mono"
+size = 12
+
+
+
+[general]
+import = [
+    "~/.config/alacritty/themes/themes/carbonfox.toml"
+]

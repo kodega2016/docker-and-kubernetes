@@ -63,3 +63,6 @@ Prometheus architecture:
 
 - Grafana: It is a popular open source tool for visualizing the metrics data collected
   by Prometheus.
+
+- Service Discovery: Prometheus supports various service discovery mechanisms to
+  automatically discover and scrape metrics from dynamic environments like kubernetes.

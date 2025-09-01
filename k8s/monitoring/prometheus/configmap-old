@@ -8,7 +8,7 @@ metadata:
 data:
   prometheus.rules: |-
     groups:
-    - name: Container POD memory demo alert
+    - name: container POD memory alert
       rules:
       - alert: High Pod Memory
         expr: sum(container_memory_usage_bytes) > 1
@@ -35,10 +35,13 @@ data:
           - "alertmanager.monitoring.svc:9093"
     scrape_configs:
       - job_name: 'node'
-        scheme: http
+        scheme: https
         static_configs:
         - targets: ['nodeexporter-service.monitoring.svc.cluster.local:9100']
 
+      - job_name: 'fluentd'
+        static_configs:
+        - targets: ['fluentd.kube-logging.svc.cluster.local:24231']
       
       - job_name: 'kubernetes-apiservers'
 

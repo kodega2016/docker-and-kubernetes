@@ -5,6 +5,7 @@
 - [Kubernetes Monitoring](#kubernetes-monitoring)
   - [Introduction](#introduction)
   - [Prometheus](#prometheus)
+  - [Setting up Prometheus in Kubernetes](#setting-up-prometheus-in-kubernetes)
   <!--toc:end-->
 
 ## Introduction
@@ -66,3 +67,22 @@ Prometheus architecture:
 
 - Service Discovery: Prometheus supports various service discovery mechanisms to
   automatically discover and scrape metrics from dynamic environments like kubernetes.
+
+## Setting up Prometheus in Kubernetes
+
+We are using the manifests from the prometheus-operator project to set up Prometheus
+in kubernetes.
+
+After setting up Prometheus, we can access the Prometheus UI,we are using
+nodeport to access the UI.
+
+```bash
+kubetl get svc -n monitoring
+```
+
+We also need to install the metrics-server in the kubernetes cluster to collect
+the node and pod metrics.
+
+```bash
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+```
